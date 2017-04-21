@@ -1,14 +1,15 @@
 sourceImage = imread('img/1.jpg');
+grayScale = rgb2gray(sourceImage);
 
-scrambledImage = scramble(sourceImage);
+scrambledImage = scramble(grayScale);
 
 descrambledImage = descramble(scrambledImage);
 
 figure('Name','Source Image');
-image(sourceImage)
+imshow(grayScale)
 
 figure('Name','Scrambled Image');
-image(scrambledImage)
+imshow(scrambledImage)
 
 figure('Name','Descrambled Image');
-image(descrambledImage)
+imshow(descrambledImage)
