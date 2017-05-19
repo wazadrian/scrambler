@@ -1,4 +1,20 @@
-sourceImage = imread('img/1.jpg');
+
+prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A):','Synchronization:','Probability of desynchronization:'};
+dialogTitle = 'Input';
+numberLines = 1;
+defaultAnswers = {'3small.png','SES','64','0.05'};
+input = inputdlg(prompt,dialogTitle,numberLines,defaultAnswers);
+
+if size(input)== 0
+    return;
+end
+file = cell2mat(strcat('img/',input(1)));
+scramblerType = cell2mat(input(2));
+
+synchronization = str2double(input(3));
+probability = str2double(input(4));
+
+sourceImage = imread(file);
 
 heightImage = size(sourceImage,1);
 widthImage = size(sourceImage,2);
@@ -6,18 +22,31 @@ widthImage = size(sourceImage,2);
 grayScale = rgb2gray(sourceImage);
 rcGrayScale = repcounter(grayScale);
 
-scrambledImage = scramble(grayScale);
+if strcmp(scramblerType,'V34')
+    scrambledImage = scramblerV34(grayScale);
+elseif strcmp(scramblerType,'V34A')
+    scrambledImage = scramblerV34A(grayScale);
+else
+    scrambledImage = scramblerSES(grayScale); %scrambler domyslny
+end
 rcScrambledImage = repcounter(scrambledImage);
 
-receivedPicture = desynchronize(grayScale);
+receivedPicture = desynchronize(grayScale,synchronization,probability);
 rcReceivedPicture = repcounter(receivedPicture);
 
 
 %descrambledImage = descramble(scrambledImage);
 %rcDescrambledImage = repcounter(descrambledImage);
 
-receivedScrambledPicture = desynchronize(scrambledImage);
-receivedDescrambledPicture = descramble(receivedScrambledPicture);
+receivedScrambledPicture = desynchronize(scrambledImage,synchronization,probability);
+
+if strcmp(scramblerType,'V34')
+    receivedDescrambledPicture = descramblerV34(receivedScrambledPicture);
+elseif strcmp(scramblerType,'V34A')
+    receivedDescrambledPicture = descramblerV34A(receivedScrambledPicture);
+else
+    receivedDescrambledPicture = descramblerSES(receivedScrambledPicture); %scrambler domyslny
+end
 %rcReceivedDescrambledPicture = repcounter(receivedDescrambledPicture);
 
 figure('Name','Source Image');

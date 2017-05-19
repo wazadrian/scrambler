@@ -1,8 +1,8 @@
-function [retval] = desynchronize (image)
+function [retval] = desynchronize (image,SYNCHRONIZATION,PROBABILITY)
 
 % funkcja tworzaca szum powstajacy podczas przesy?ania
 % oparty o desynchronizacje przesylu 
-% Przyj?te zalozenia: je?eli dany kolor wyst?puje wiecej ni? 5 razy
+% Przyjete zalozenia: jezeli dany kolor wystepuje wiecej niz 5 razy
 % pojawia sie szansa na przesuniecie pikseli w obrazie
 % w celu zwalczania desynchronizacji zastosowano metode odnawiania,
 % która z okreslonym czasem przywraca synchronizacje w przesyle
@@ -10,9 +10,6 @@ function [retval] = desynchronize (image)
 % zmienne dotyczace ilosci pikseli po, ktorej nastepuje synchronizacja
 % oraz prawdopodobienstwo wystapienia bledu
 
-
-SYNCHRONIZATION=64;
-PROBALILITY=0.05;
 
 heightImage = size(image,1);
 widthImage = size(image,2);
@@ -39,7 +36,7 @@ for i = 1:heightImage*widthImage
     if reshapedImage(i)== lastValue
         counter = counter + 1;
         if counter>5
-            if(rand<PROBALILITY)
+            if(rand<PROBABILITY)
             shift = shift + 1;  
             end
         end

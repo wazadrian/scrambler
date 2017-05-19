@@ -1,4 +1,4 @@
-function [retval] = descramlerV34(image)
+function [retval] = descramblerV34(image)
 
 m = size(image,1);
 n = size(image,2);
