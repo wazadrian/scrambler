@@ -1,4 +1,4 @@
-sourceImage = imread('img/3small.png');
+sourceImage = imread('img/1.jpg');
 
 heightImage = size(sourceImage,1);
 widthImage = size(sourceImage,2);
@@ -9,8 +9,16 @@ rcGrayScale = repcounter(grayScale);
 scrambledImage = scramble(grayScale);
 rcScrambledImage = repcounter(scrambledImage);
 
-descrambledImage = descramble(scrambledImage);
-rcDescrambledImage = repcounter(descrambledImage);
+receivedPicture = desynchronize(grayScale);
+rcReceivedPicture = repcounter(receivedPicture);
+
+
+%descrambledImage = descramble(scrambledImage);
+%rcDescrambledImage = repcounter(descrambledImage);
+
+receivedScrambledPicture = desynchronize(scrambledImage);
+receivedDescrambledPicture = descramble(receivedScrambledPicture);
+%rcReceivedDescrambledPicture = repcounter(receivedDescrambledPicture);
 
 figure('Name','Source Image');
 subplot(3,1,1); 
@@ -21,7 +29,6 @@ imhist(grayScale)
 
 subplot(3,1,3);
 x = 1:1:widthImage;
-histogram(rcGrayScale,x)
 bar(x,rcGrayScale)
 
 figure('Name','Scrambled Image');
@@ -33,17 +40,26 @@ imhist(scrambledImage)
 
 subplot(3,1,3);
 x = 1:1:widthImage;
-histogram(rcScrambledImage,x)
 bar(x,rcScrambledImage)
 
-figure('Name','Descrambled Image');
-subplot(3,1,1); 
-imshow(descrambledImage)
+figure('Name','Received Image');
+%subplot(3,1,1); 
+imshow(receivedPicture)
 
-subplot(3,1,2);
-imhist(descrambledImage)
+%subplot(3,1,2);
+%imhist(receivedPicture)
 
-subplot(3,1,3);
-x = 1:1:widthImage;
-histogram(rcDescrambledImage,x)
-bar(x,rcDescrambledImage)
+%subplot(3,1,3);
+%x = 1:1:widthImage;
+%bar(x,rcReceivedPicture)
+
+figure('Name','Received descrambled Image');
+%subplot(3,1,1); 
+imshow(receivedDescrambledPicture)
+
+%subplot(3,1,2);
+%imhist(receivedDescrambledPicture)
+
+%subplot(3,1,3);
+%x = 1:1:widthImage;
+%bar(x,rcReceivedDescrambledPicture)
