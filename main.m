@@ -1,8 +1,8 @@
 
-prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A):','Synchronization:','Probability of desynchronization:'};
+prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A):','Maximum bits in a row without errors:','Probability of desynchronization:'};
 dialogTitle = 'Input';
 numberLines = 1;
-defaultAnswers = {'3small.png','SES','64','0.05'};
+defaultAnswers = {'6.png','SES','8','0.05'};
 input = inputdlg(prompt,dialogTitle,numberLines,defaultAnswers);
 
 if size(input)== 0
@@ -20,7 +20,7 @@ heightImage = size(sourceImage,1);
 widthImage = size(sourceImage,2);
 
 grayScale = rgb2gray(sourceImage);
-rcGrayScale = repcounter(grayScale);
+rcGrayScale = repcounterb(grayScale);
 
 if strcmp(scramblerType,'V34')
     scrambledImage = scramblerV34(grayScale);
@@ -29,16 +29,16 @@ elseif strcmp(scramblerType,'V34A')
 else
     scrambledImage = scramblerSES(grayScale); %scrambler domyslny
 end
-rcScrambledImage = repcounter(scrambledImage);
+rcScrambledImage = repcounterb(scrambledImage);
 
-receivedPicture = desynchronize(grayScale,synchronization,probability);
-rcReceivedPicture = repcounter(receivedPicture);
+receivedPicture = desynchronizeb(grayScale,synchronization,probability);
+rcReceivedPicture = repcounterb(receivedPicture);
 
 
 %descrambledImage = descramble(scrambledImage);
 %rcDescrambledImage = repcounter(descrambledImage);
 
-receivedScrambledPicture = desynchronize(scrambledImage,synchronization,probability);
+receivedScrambledPicture = desynchronizeb(scrambledImage,synchronization,probability);
 
 if strcmp(scramblerType,'V34')
     receivedDescrambledPicture = descramblerV34(receivedScrambledPicture);
