@@ -13,7 +13,6 @@ scramblerType = cell2mat(input(2));
 
 synchronization = str2double(input(3));
 probability = str2double(input(4));
-
 sourceImage = imread(file);
 
 heightImage = size(sourceImage,1);
@@ -30,14 +29,14 @@ else
     scrambledImage = scramblerSES(grayScale); %scrambler domyslny
 end
 rcScrambledImage = repcounterb(scrambledImage);
-
+disp('original image')
 receivedPicture = desynchronizeb(grayScale,synchronization,probability);
 rcReceivedPicture = repcounterb(receivedPicture);
 
 
 %descrambledImage = descramble(scrambledImage);
 %rcDescrambledImage = repcounter(descrambledImage);
-
+disp('scrambled image')
 receivedScrambledPicture = desynchronizeb(scrambledImage,synchronization,probability);
 
 if strcmp(scramblerType,'V34')

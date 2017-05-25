@@ -14,6 +14,10 @@ retval = reshapedImage;
 lastValue = -1;
 counter = 0;
 
+errors = 0;
+
+
+
 for i = 1:heightImage*widthImage
     for b=1:8
         if retval(i,b)== lastValue
@@ -21,6 +25,7 @@ for i = 1:heightImage*widthImage
             if counter > BITINROW
                 if(rand<PROBABILITY)
                     retval(i,b) = 1-retval(i,b);
+                    errors = errors +1;
                 end
             end
         else
@@ -33,5 +38,7 @@ for i = 1:heightImage*widthImage
 end
 retval= reshape(bi2de(retval),heightImage,widthImage);
 
-disp('done desynchronize')
+X = sprintf('done desynchronize, errors: %d, errors/(imgsize*8): %f',errors, errors/(heightImage*widthImage*8));
+%disp('done desynchronize errors: '+ errors + 'errors/imgsize: '+ errors/(heightImage*widthImage))
+disp(X)
 end
