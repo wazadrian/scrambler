@@ -1,5 +1,5 @@
 
-prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A):','Maximum bits in a row without errors:','Probability of desynchronization:'};
+prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A/HDMI):','Maximum bits in a row without errors:','Probability of desynchronization:'};
 dialogTitle = 'Input';
 numberLines = 1;
 defaultAnswers = {'6.png','SES','8','0.05'};
@@ -11,7 +11,7 @@ end
 file = cell2mat(strcat('img/',input(1)));
 scramblerType = cell2mat(input(2));
 
-synchronization = str2double(input(3));
+bitsinrow = str2double(input(3));
 probability = str2double(input(4));
 sourceImage = imread(file);
 
@@ -25,24 +25,28 @@ if strcmp(scramblerType,'V34')
     scrambledImage = scramblerV34(grayScale);
 elseif strcmp(scramblerType,'V34A')
     scrambledImage = scramblerV34A(grayScale);
+elseif strcmp(scramblerType,'HDMI')
+    scrambledImage = scramblerHDMI(grayScale);
 else
     scrambledImage = scramblerSES(grayScale); %scrambler domyslny
 end
 rcScrambledImage = repcounterb(scrambledImage);
 disp('original image')
-receivedPicture = desynchronizeb(grayScale,synchronization,probability);
+receivedPicture = desynchronizeb(grayScale,bitsinrow,probability);
 rcReceivedPicture = repcounterb(receivedPicture);
 
 
 %descrambledImage = descramble(scrambledImage);
 %rcDescrambledImage = repcounter(descrambledImage);
 disp('scrambled image')
-receivedScrambledPicture = desynchronizeb(scrambledImage,synchronization,probability);
+receivedScrambledPicture = desynchronizeb(scrambledImage,bitsinrow,probability);
 
 if strcmp(scramblerType,'V34')
     receivedDescrambledPicture = descramblerV34(receivedScrambledPicture);
 elseif strcmp(scramblerType,'V34A')
     receivedDescrambledPicture = descramblerV34A(receivedScrambledPicture);
+elseif strcmp(scramblerType,'HDMI')
+    receivedDescrambledPicture = descramblerHDMI(receivedScrambledPicture);
 else
     receivedDescrambledPicture = descramblerSES(receivedScrambledPicture); %scrambler domyslny
 end
