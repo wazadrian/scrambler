@@ -1,5 +1,5 @@
 
-prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A/HDMI):','Maximum bits in a row without errors:','Probability of desynchronization:'};
+prompt = {'Enter file name:','Scrambler Type(SES/V34/V34A/HDMI/DVB):','Maximum bits in a row without errors:','Probability of desynchronization:'};
 dialogTitle = 'Input';
 numberLines = 1;
 defaultAnswers = {'6.png','SES','8','0.05'};
@@ -27,6 +27,8 @@ elseif strcmp(scramblerType,'V34A')
     scrambledImage = scramblerV34A(grayScale);
 elseif strcmp(scramblerType,'HDMI')
     scrambledImage = scramblerHDMI(grayScale);
+elseif strcmp(scramblerType,'DVB')
+scrambledImage = scramblerDVB(grayScale);
 else
     scrambledImage = scramblerSES(grayScale); %scrambler domyslny
 end
@@ -47,6 +49,8 @@ elseif strcmp(scramblerType,'V34A')
     receivedDescrambledPicture = descramblerV34A(receivedScrambledPicture);
 elseif strcmp(scramblerType,'HDMI')
     receivedDescrambledPicture = descramblerHDMI(receivedScrambledPicture);
+elseif strcmp(scramblerType,'DVB')
+    receivedDescrambledPicture = scramblerDVB(receivedScrambledPicture);
 else
     receivedDescrambledPicture = descramblerSES(receivedScrambledPicture); %scrambler domyslny
 end
